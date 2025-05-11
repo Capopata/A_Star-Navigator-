@@ -59,6 +59,7 @@ class App:
         tk.Label(f, text=label).pack(side=tk.RIGHT, padx=5)
     
     def _prepare_map(self):
+        self.btn_start.config(state=tk.DISABLED)
         # khởi tạo bản đồ, start/goal
         self.mmap = Map.map_init(10,10)
         self.goals = Map.map_random(self.mmap)   # list of 3 goals
@@ -69,6 +70,7 @@ class App:
         # place turtle at start
         sx, sy = Map.turn2pixel(self.mmap, self.height_half, self.width_half, *self.start)
         self.t.up(); self.t.goto(sx, sy); self.t.down()
+        self.btn_start.config(state=tk.NOMAL)
     
     def start(self):
         self.btn_start.config(state=tk.DISABLED)
