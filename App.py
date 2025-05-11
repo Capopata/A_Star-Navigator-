@@ -7,7 +7,7 @@ from pathfinding import A_Star
 class App:
     def __init__(self, root):
         self.root = root
-        root.title("A* Pathfinding Demo")
+        root.title("A* Pathfinding")
         
         # Left: Canvas chứa turtle
         self.canvas_frame = tk.Frame(root)
