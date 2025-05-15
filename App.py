@@ -103,9 +103,9 @@ class App:
         self.btn_start2.config(state=tk.DISABLED)
         t0 = perf_counter()
         
-        # chạy A*
-        complete_run = 1 #what ever ur algorithm is 
-        
+        # chạy cái j đó khác 
+        complete_run = Map.run_something_else(self.t, self.mmap, self.width_half, self.height_half, self.start, self.goals)
+                
         dt = perf_counter() - t0
         if complete_run:
             info_text = f"Giải mã thành công!\nThời gian giải mã: {dt:.3f} giây"
