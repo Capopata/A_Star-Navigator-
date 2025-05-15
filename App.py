@@ -43,12 +43,44 @@ class App:
         self.info_label = tk.Label(ctrl, text="", wraplength=200, justify='left')
         self.btn_finish = tk.Button(ctrl, text="Hoàn tất", command=root.quit)
         self.btn_reset  = tk.Button(ctrl, text="Quay lại", command=self.reset)
-        
-        
 
         # Prepare map & turtle
         self.width_half, self.height_half = 400, 700
-        self._prepare_map()
+        tk.Label(ctrl, text="Số hàng (rows):").pack(anchor='w')
+        self.entry_rows = tk.Entry(ctrl)
+        self.entry_rows.pack(fill=tk.X, pady=2)
+
+        # Column input
+        tk.Label(ctrl, text="Số cột (columns):").pack(anchor='w')
+        self.entry_cols = tk.Entry(ctrl)
+        self.entry_cols.pack(fill=tk.X, pady=2)
+                
+        self.btn_confirm = tk.Button(ctrl, text="Xác nhận kích thước map", command=self.confirm_map_size)
+        self.btn_confirm.pack(fill=tk.X, pady=5)
+
+        
+    def confirm_map_size(self):
+        try:
+            rows = int(self.entry_rows.get())
+            cols = int(self.entry_cols.get())
+            
+            if rows <5 or cols<5:
+                info_text = "Số hàng và cột quá bé!"
+                self.info_label.config(text=info_text, fg="red")
+                self.info_label.pack(pady=(20,5))
+            elif rows>=50 or cols>=50:
+                info_text = "Số hàng và cột quá lớn!"
+                self.info_label.config(text=info_text, fg="red")
+                self.info_label.pack(pady=(20,5))
+            else:
+                info_text = "OK"
+                self.info_label.config(text=info_text, fg="green")
+                self.info_label.pack(pady=(20,5))
+                self._prepare_map(rows,cols)
+        except ValueError:
+            info_text = "Số hàng và cột không hợp lệ"
+            self.info_label.config(text=info_text, fg="red")
+            self.info_label.pack(pady=(20,5))
     
     def _add_legend(self, parent, label, color):
         f = tk.Frame(parent)
@@ -65,10 +97,10 @@ class App:
 
         tk.Label(f, text=label).pack(side=tk.RIGHT, padx=5)
     
-    def _prepare_map(self):
+    def _prepare_map(self,rows,cols):
         # khởi tạo bản đồ, start/goal
         
-        self.mmap = Map.map_init(10,10)
+        self.mmap = Map.map_init(rows,cols)
         self.goals = Map.map_random(self.mmap)   # list of 3 goals
         self.start = Map.random_curpos(self.mmap)
         # vẽ grid + obstacles + goals
@@ -105,7 +137,7 @@ class App:
         
         # chạy cái j đó khác 
         complete_run = Map.run_something_else(self.t, self.mmap, self.width_half, self.height_half, self.start, self.goals)
-                
+        
         dt = perf_counter() - t0
         if complete_run:
             info_text = f"Giải mã thành công!\nThời gian giải mã: {dt:.3f} giây"
