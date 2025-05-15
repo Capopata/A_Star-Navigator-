@@ -197,3 +197,9 @@ class Map:
             start_node = nearest_goal
             goal_node.remove(nearest_goal)
         return True
+    @staticmethod
+    def run_something_else(amr, mmap, width_half, height_half, start_node, goal_node):
+        print("do something, idk")
+        #todo: add your algorithm here
+
+        return True
